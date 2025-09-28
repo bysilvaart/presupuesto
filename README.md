@@ -20,6 +20,7 @@ La app se sirve en `http://localhost:5173`. Puedes instalarla como PWA desde el 
 
 - `npm run dev` – entorno de desarrollo Vite.
 - `npm run build` – compila la app y el Service Worker.
+- `npm run postbuild` – se ejecuta tras `npm run build` y duplica `dist/index.html` como `dist/404.html`.
 - `npm run preview` – previsualiza el build.
 - `npm run test` – ejecuta pruebas unitarias y de accesibilidad con Vitest y Testing Library.
 
@@ -50,3 +51,7 @@ Al iniciar por primera vez se insertan movimientos, suscripciones, obligaciones,
 ## Testing
 
 Las pruebas cubren helpers de formato, IPC, reglas de hormigas y flujos de accesibilidad básicos en la pantalla de captura rápida.
+
+## Despliegue en GitHub Pages
+
+GitHub Pages utiliza el archivo `404.html` para servir rutas profundas en aplicaciones SPA. El script de postbuild copia el contenido de `dist/index.html` en `dist/404.html` para que cualquier ruta renderice correctamente la aplicación.
