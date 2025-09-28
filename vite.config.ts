@@ -15,6 +15,7 @@ export default defineConfig({
       ]
     })
   ],
+  base: '/presupuesto/',
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src')
