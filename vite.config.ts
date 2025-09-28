@@ -15,7 +15,8 @@ export default defineConfig({
       ]
     })
   ],
-  base: '/presupuesto/',
+  // Necesario para que los assets se sirvan correctamente bajo /presu-pwa/ en GitHub Pages.
+  base: '/presu-pwa/',
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src')
