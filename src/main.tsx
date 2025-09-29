@@ -5,15 +5,11 @@ import App from './App';
 import './styles/tailwind.css';
 import { registerSW } from './pwa/register-sw';
 
-if ('serviceWorker' in navigator) {
-  registerSW();
-}
-
-const basename = import.meta.env.BASE_URL;
+registerSW();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <BrowserRouter basename={basename}>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <App />
     </BrowserRouter>
   </React.StrictMode>

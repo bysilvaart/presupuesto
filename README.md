@@ -44,7 +44,7 @@ Al iniciar por primera vez se insertan movimientos, suscripciones, obligaciones,
 
 ## Notas sobre PWA
 
-- `manifest.webmanifest` incluye `share_target` y start URL `/capturar`.
+- `manifest.webmanifest` incluye `share_target` con acción `./capturar` (método GET) y start URL `./?source=pwa`.
 - El Service Worker cachea el app shell y guarda peticiones fallidas en IndexedDB para reintentos posteriores.
 - Las funciones de Web Push y actualización automática de IPC incluyen `// TODO` para integrar APIs reales.
 
