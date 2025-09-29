@@ -2,7 +2,13 @@
 
 const sw = self as unknown as ServiceWorkerGlobalScope;
 const CACHE_NAME = 'presupuesto-cache-v1';
-const APP_SHELL = ['/', '/index.html', '/manifest.webmanifest'];
+const scopeURL = new URL(sw.registration.scope);
+const toScopedURL = (path: string) => new URL(path, scopeURL).href;
+
+const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.svg', './icons/icon-512.svg'].map(
+  toScopedURL
+);
+const INDEX_HTML = toScopedURL('./index.html');
 
 const openQueueDB = () =>
   new Promise<IDBDatabase>((resolve, reject) => {
@@ -83,8 +89,21 @@ sw.addEventListener('fetch', (event) => {
             caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
             return response;
           })
-          .catch(() => cached);
-        return cached || networkFetch;
+          .catch(async () => {
+            if (request.mode === 'navigate') {
+              const fallback = await caches.match(INDEX_HTML);
+              if (fallback) {
+                return fallback;
+              }
+            }
+            return cached ?? Response.error();
+          });
+
+        if (cached) {
+          return cached;
+        }
+
+        return networkFetch;
       })
     );
   }
@@ -118,7 +137,7 @@ sw.addEventListener('notificationclick', (event) => {
       if (client) {
         return client.focus();
       }
-      return sw.clients.openWindow('/suscripciones');
+      return sw.clients.openWindow(toScopedURL('./suscripciones'));
     })
   );
 });
@@ -130,7 +149,7 @@ sw.addEventListener('push', (event) => {
   event.waitUntil(
     sw.registration.showNotification(data.title, {
       body: data.body ?? 'Revisa tus próximas renovaciones',
-      icon: '/icons/icon-192.png'
+      icon: toScopedURL('./icons/icon-192.svg')
     })
   );
 });
