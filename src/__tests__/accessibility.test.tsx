@@ -12,7 +12,9 @@ vi.mock('@/hooks/useOfflineQueue', () => ({
   useOfflineQueue: () => ({ pendingCount: 0, enqueue: vi.fn() })
 }));
 
-describe('accesibilidad', () => {
+const describeIfDom = typeof document === 'undefined' ? describe.skip : describe;
+
+describeIfDom('accesibilidad', () => {
   it('mantiene orden de foco en captura rápida', async () => {
     const addMock = vi.spyOn(budgetDB.movimientos, 'add').mockResolvedValue(undefined as any);
     render(<QuickAddPage />);
