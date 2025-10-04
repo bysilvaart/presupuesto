@@ -5,13 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node scripts/build.mjs",
     "postbuild": "cp dist/index.html dist/404.html",
     "preview": "vite preview",
     "test": "vitest"
   },
   "dependencies": {
-    "@radix-ui/react-dialog": "^1.0.5",
     "@tanstack/react-virtual": "^3.0.0",
     "date-fns": "^3.3.1",
     "dexie": "^3.2.4",

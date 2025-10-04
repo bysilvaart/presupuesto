@@ -1,9 +1,9 @@
 /// <reference lib="webworker" />
 
-const sw = self as unknown as ServiceWorkerGlobalScope;
+const sw = /** @type {ServiceWorkerGlobalScope} */ (self);
 const CACHE_NAME = 'presupuesto-cache-v1';
 const scopeURL = new URL(sw.registration.scope);
-const toScopedURL = (path: string) => new URL(path, scopeURL).href;
+const toScopedURL = (path) => new URL(path, scopeURL).href;
 
 const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.svg', './icons/icon-512.svg'].map(
   toScopedURL
@@ -11,7 +11,7 @@ const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon
 const INDEX_HTML = toScopedURL('./index.html');
 
 const openQueueDB = () =>
-  new Promise<IDBDatabase>((resolve, reject) => {
+  new Promise((resolve, reject) => {
     const request = indexedDB.open('budget-db', 1);
     request.onupgradeneeded = () => {
       const db = request.result;
@@ -23,7 +23,7 @@ const openQueueDB = () =>
     request.onsuccess = () => resolve(request.result);
   });
 
-const queueStore = async (request: Request) => {
+const queueStore = async (request) => {
   const clone = request.clone();
   const body = await clone.json().catch(() => null);
   if (!body) return;
@@ -117,7 +117,7 @@ sw.addEventListener('message', (event) => {
         const store = tx.objectStore('offlineQueue');
         const request = store.getAll();
         request.onsuccess = () => {
-          const items = request.result as Array<{ id?: number }>;
+          const items = request.result ?? [];
           items.forEach((item) => {
             if (typeof item.id !== 'number') return;
             store.put({ ...item, status: 'synced' }, item.id);
@@ -142,9 +142,7 @@ sw.addEventListener('notificationclick', (event) => {
   );
 });
 
-// @ts-expect-error: push no implementado aún
 sw.addEventListener('push', (event) => {
-  // TODO: manejar mensajes push (requiere backend)
   const data = event.data?.json() ?? { title: 'Recordatorio de suscripción' };
   event.waitUntil(
     sw.registration.showNotification(data.title, {
