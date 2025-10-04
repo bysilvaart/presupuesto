@@ -1,0 +1,2 @@
+Esta build se generó usando la rutina de reserva porque Vite no está disponible en el entorno actual.
+Para una build optimizada, ejecuta `npm install` y luego `npm run build` en un entorno con acceso al registry de npm.
