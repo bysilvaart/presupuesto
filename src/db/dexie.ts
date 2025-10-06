@@ -66,6 +66,7 @@ export interface IndiceIPC {
   id: string;
   mes: string;
   valor: number;
+  utm?: number;
   esUltimo?: boolean;
 }
 
