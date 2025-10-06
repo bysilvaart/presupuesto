@@ -192,12 +192,38 @@ const obligacionesSeed: Obligacion[] = [
   }
 ];
 
-const indicesSeed: IndiceIPC[] = [
-  { id: 'ipc-2023-12', mes: '2023-12', valor: 110.2 },
-  { id: 'ipc-2024-01', mes: '2024-01', valor: 111.1 },
-  { id: 'ipc-2024-02', mes: '2024-02', valor: 112.5, esUltimo: true },
-  { id: 'ipc-2024-03', mes: '2024-03', valor: 113.0 }
-];
+const generarIndicesSeed = (): IndiceIPC[] => {
+  const cantidadMeses = 12;
+  const fechaReferencia = new Date();
+  fechaReferencia.setDate(1);
+
+  const indices: IndiceIPC[] = [];
+
+  for (let i = cantidadMeses - 1; i >= 0; i -= 1) {
+    const fecha = new Date(fechaReferencia);
+    fecha.setMonth(fechaReferencia.getMonth() - i);
+
+    const year = fecha.getFullYear();
+    const month = (fecha.getMonth() + 1).toString().padStart(2, '0');
+    const mesIso = `${year}-${month}`;
+
+    const progreso = cantidadMeses - 1 - i;
+    const valor = Number((110 + progreso * 0.5).toFixed(1));
+    const utm = Math.round(62000 + progreso * 320);
+
+    indices.push({
+      id: `ipc-${mesIso}`,
+      mes: mesIso,
+      valor,
+      utm,
+      esUltimo: i === 0
+    });
+  }
+
+  return indices;
+};
+
+const indicesSeed: IndiceIPC[] = generarIndicesSeed();
 
 const sinkingSeed: SinkingFund[] = [
   { id: uuid(), nombre: 'Navidad', montoAnual: 240000, activo: true },

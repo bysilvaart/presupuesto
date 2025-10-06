@@ -10,7 +10,7 @@ const navItems = [
   { to: '/panel', label: 'Panel', icon: '📊' },
   { to: '/suscripciones', label: 'Suscripciones', icon: '💡' },
   { to: '/obligaciones', label: 'Obligaciones', icon: '🏠' },
-  { to: '/indices', label: 'Índices IPC', icon: '📈' },
+  { to: '/indices', label: 'Índices', icon: '📈' },
   { to: '/importar', label: 'Importar', icon: '⬆️' },
   { to: '/ajustes', label: 'Ajustes', icon: '⚙️' }
 ];

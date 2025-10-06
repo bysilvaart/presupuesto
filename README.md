@@ -16,6 +16,20 @@ npm run dev
 
 La app se sirve en `http://localhost:5173`. Puedes instalarla como PWA desde el navegador y funciona offline gracias al Service Worker cache-first.
 
+### Credenciales CMF para IPC y UTM
+
+La pantalla de índices puede sincronizar automáticamente los valores de IPC y UTM desde la Comisión para el Mercado Financiero (CMF). Para habilitarla:
+
+1. Solicita una API Key en [api.cmfchile.cl](https://api.cmfchile.cl).
+2. Crea un archivo `.env.local` en la raíz del proyecto con las variables:
+
+   ```bash
+   VITE_CMF_API_KEY="tu_api_key"
+   VITE_CMF_API_SECRET="tu_token"
+   ```
+
+3. Reinicia `npm run dev` para que Vite exponga las variables. Opcionalmente puedes sobreescribir la URL base con `VITE_CMF_API_BASE_URL` si usas un entorno intermedio de la CMF.
+
 ## Scripts
 
 - `npm run dev` – entorno de desarrollo Vite.
@@ -46,7 +60,7 @@ Al iniciar por primera vez se insertan movimientos, suscripciones, obligaciones,
 
 - `manifest.webmanifest` incluye `share_target` con acción `./capturar` (método GET) y start URL `./?source=pwa`.
 - El Service Worker cachea el app shell y guarda peticiones fallidas en IndexedDB para reintentos posteriores.
-- Las funciones de Web Push y actualización automática de IPC incluyen `// TODO` para integrar APIs reales.
+- Las funciones de Web Push incluyen `// TODO` para integrar APIs reales.
 
 ## Testing
 
